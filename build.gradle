@@ -34,4 +34,4 @@ springBoot {
     mainClass = 'fr.panicot.ccrg.ApplicationKt'
 }
 
-task stage(dependsOn: ['clean', 'build', 'bootRun'])
+task stage(dependsOn: ['clean', 'build'])

@@ -1,0 +1,95 @@
+#online {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 20%;
+}
+#hide_scroll {
+	overflow: hidden;display: block;
+	position: absolute;
+	left: 1%;
+	top: 0;
+	height: 80%;
+	width: 78%;
+}
+#main {
+	width: 100%;
+    height: 99%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-right:500px;
+}
+
+#prompt {
+	display: block;
+	position: absolute;
+	bottom: 15%;
+	left: 1%;
+	height: 5%;
+	width: 100%;
+}
+
+#announcement {
+	display: block;
+	position: absolute;
+	bottom: 0;
+	left: 1%;
+	height: 15%;
+	width: 100%;
+}
+
+.afk {
+	font-style: italic;
+}
+
+.hidden {
+	display: none;
+}
+
+/* unvisited link */
+a:link {
+    color: white;
+}
+
+/* visited link */
+a:visited {
+    color: white;
+}
+
+/* mouse over link */
+a:hover {
+    color: white;
+}
+
+/* selected link */
+a:active {
+    color: white;
+}
+
+p {
+	margin:0;
+}
+
+body {
+	background-color:black;
+	color:white;
+	font-family: "Courier New", Courier, monospace;
+}
+
+html {
+	overflow:hidden;
+}
+
+*:focus {
+	outline:0;
+}
+
+input {
+	border:0px solid;
+	background-color:black;
+	color:white;
+	font-family: "Courier New", Courier, monospace;
+	outline:0;
+	width: 80%;
+}

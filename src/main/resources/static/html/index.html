@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <title>CCRG</title>
+</head>
+<body>
+<div id="left">
+    <div id="hide_scroll">
+        <div id="main">
+
+        </div>
+    </div>
+    <div id="prompt">
+        <form onsubmit="event.preventDefault();sendMessage();">
+            <span id="user_name"></span> > <input type="text" id="message_prompt" autocomplete="off" maxlength="255"/>
+        </form>
+    </div>
+    <div id="announcement">
+        <p></p>
+    </div>
+</div>
+<div id="online"></div>
+<script src="/js/jquery.js" language="JavaScript" type="text/javascript"></script>
+<script src="/js/ccrg.js" language="JavaScript" type="text/javascript"></script>
+<script>
+    var lastMessageId=0;
+    var messages=[];
+    var me = "?";
+    getMyName();
+    getMessages();
+    window.onbeforeunload = function(){
+        announceMyDeparture();
+    }
+</script>
+</body>
+</html>

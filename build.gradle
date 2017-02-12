@@ -16,6 +16,7 @@ buildscript {
 
 apply plugin: 'kotlin'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
 
 repositories {
     mavenCentral()
@@ -34,4 +35,12 @@ springBoot {
     mainClass = 'fr.panicot.ccrg.ApplicationKt'
 }
 
-task stage(dependsOn: ['clean', 'build'])
+jar {
+    manifest {
+        attributes 'Main-Class': 'fr.panicot.ccrg.ApplicationKt'
+    }
+
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+task stage(dependsOn: ['build'])

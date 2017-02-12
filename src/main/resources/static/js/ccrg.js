@@ -53,8 +53,8 @@ function getMessages() {
             })
             lastMessageId = messageBatch.latestId
             document.getElementById("main").innerHTML = allMessages
-            getMessages()
-        }
+        },
+        complete:getMessages
     })
     return false;
 }

@@ -48,7 +48,7 @@ function getMessages() {
             messages.forEach(function(message) {
                 var html = '<div class="message"><span class="message_timestamp">' + message.timestamp.substring(0, message.timestamp.length - 7)
                 + '</span><span class="message_author"> ' + message.author
-                + '</span><span class="message_content"> > ' + message.content + '</span></div>';
+                + '</span><span class="message_content">> ' + message.content + '</span></div>';
                 allMessages = allMessages + html;
             })
             lastMessageId = messageBatch.latestId

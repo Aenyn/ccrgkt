@@ -2,7 +2,6 @@
 .idea
 build/
 out/
-gradle
 
 # Ignore Gradle GUI config
 gradle-app.setting

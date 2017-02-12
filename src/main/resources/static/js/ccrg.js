@@ -58,3 +58,23 @@ function getMessages() {
     })
     return false;
 }
+
+function getActiveUsers() {
+    var url = "/users/get";
+    $.ajax({
+        url: url,
+        method: "GET",
+        success:function(userList) {
+            var allUsers = "";
+            var userNames = userList.map(function(user) {
+                return user.name
+            });
+            userNames.forEach(function(username) {
+                var html = '<div class="user"><span class="user_name">' + username + '</span>';
+                allUsers = allUsers + html;
+            })
+            document.getElementById("online").innerHTML = allUsers
+        }
+    })
+    return false;
+}

@@ -28,6 +28,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-devtools")
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
     testCompile 'junit:junit'
 }
 

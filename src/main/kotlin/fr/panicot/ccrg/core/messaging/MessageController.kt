@@ -88,4 +88,11 @@ class MessageController {
             users.put(author, User(author, false, timestamp))
         }
     }
+
+    fun processMessage(message: Message): Message {
+        return MessageProcessor(message)
+                .escapeHtmlTags()
+                .processLinks()
+                .finalizeMessage()
+    }
 }

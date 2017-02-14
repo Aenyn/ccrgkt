@@ -19,7 +19,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@PropertySource("classpath:secret.properties")
 open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Throws(Exception::class)

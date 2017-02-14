@@ -25,6 +25,7 @@
 <script src="/js/jquery.js" language="JavaScript" type="text/javascript"></script>
 <script src="/js/ccrg.js" language="JavaScript" type="text/javascript"></script>
 <script>
+    var unreadMessages = 0
     var scrollMode = true
     var lastMessageId=0;
     var messages=[];
@@ -36,6 +37,16 @@
     }
     getActiveUsers();
     setInterval(getActiveUsers, 1000);
+
+    var isActive = true;
+    window.onfocus = function () {
+        isActive = true;
+        document.title = "CCRG"
+        unreadMessages = 0
+    };
+    window.onblur = function () {
+        isActive = false;
+    };
 </script>
 </body>
 </html>

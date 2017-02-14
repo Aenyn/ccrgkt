@@ -65,6 +65,10 @@ function getMessages() {
         method: "GET",
         success:function(messageBatch) {
             var allMessages = "";
+            if(!isActive) {
+                unreadMessages += messageBatch.messages.length
+                document.title = "(" + unreadMessages + ") CCRG";
+            }
             messages = messages.concat(messageBatch.messages)
             messages.forEach(function(message) {
                 var html = '<div class="message"><span class="message_timestamp">' + message.timestamp.substring(0, message.timestamp.length - 7)

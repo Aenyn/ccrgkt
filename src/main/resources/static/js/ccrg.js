@@ -10,12 +10,33 @@ function getMyName() {
     })
 }
 
+function checkCommands(message) {
+    var toggleScrollExp = /\/togglescroll/
+    var noScrollExp = /\/noscroll/
+    var scrollExp = /\/scroll/
+    if(toggleScrollExp.test(message)) {
+        scrollMode = !scrollMode
+        return false
+    } if(noScrollExp.test(message)) {
+        scrollMode = false
+        return false
+    } if(scrollExp.test(message)) {
+        scrollMode = true
+        return false
+    } else {
+        return true
+    }
+}
+
 function sendMessage() {
-    $.ajax({
-        url: "/messages/send",
-        method: "POST",
-        data: {author:me, content:document.getElementById("message_prompt").value}
-    })
+    var content = document.getElementById("message_prompt").value
+    if(checkCommands(content)) {
+        $.ajax({
+            url: "/messages/send",
+            method: "POST",
+            data: {author:me, content:content}
+        })
+    }
     document.getElementById("message_prompt").value = "";
 }
 
@@ -53,6 +74,7 @@ function getMessages() {
             })
             lastMessageId = messageBatch.latestId
             document.getElementById("main").innerHTML = allMessages
+            scrollToBottom()
         },
         complete:getMessages
     })
@@ -77,4 +99,11 @@ function getActiveUsers() {
         }
     })
     return false;
+}
+
+function scrollToBottom() {
+    if(scrollMode) {
+        var objDiv = document.getElementById("main");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
 }

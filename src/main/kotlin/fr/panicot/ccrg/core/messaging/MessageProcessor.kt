@@ -10,13 +10,13 @@ class MessageProcessor(val message: Message) {
         val messageContent = message.content
         val messageSplit = messageContent.split(" ")
         val messageProcessed = Message(message.id,message.timestamp,message.author,
-                messageSplit.map { part -> {
+                messageSplit.map { part ->
                     if(part.matches(Regex("(.+\\..+)"))){
                         val partWithHttp = if (part.startsWith("http")) part else "http://$part"
                         "<a target=\"_blank\" href=$partWithHttp> $partWithHttp </a>"
                     }
                     else part
-                }}.joinToString(" "))
+                }.joinToString(" "))
         return MessageProcessor(messageProcessed)
     }
 

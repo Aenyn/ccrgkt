@@ -13,7 +13,7 @@ class MessageProcessor(val message: Message) {
                 messageSplit.map { part ->
                     if(part.matches(Regex("(.+\\..+)"))){
                         val partWithHttp = if (part.startsWith("http")) part else "http://$part"
-                        "<a target=\"_blank\" href=$partWithHttp> $partWithHttp </a>"
+                        "<a target=\"_blank\" href=$partWithHttp> $part </a>"
                     }
                     else part
                 }.joinToString(" "))

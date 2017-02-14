@@ -22,9 +22,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @PropertySource("classpath:secret.properties")
 open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
-    @Value("\${security.password.default}")
-    var defaultPassword: String? = null
-
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
@@ -49,6 +46,7 @@ open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Bean
     open fun authenticationProvider(): AuthenticationProvider {
+        val defaultPassword = System.getenv("DEFAULT_PASSWORD")?:""
         return CCRGAuthenticationProvider(defaultPassword)
     }
 }

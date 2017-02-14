@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.adapters.HexBinaryAdapter
  * Created by William on 12/02/2017.
  */
 
-open class CCRGAuthenticationProvider(val defaultPassword: String?): AuthenticationProvider {
+open class CCRGAuthenticationProvider(val defaultPassword: String): AuthenticationProvider {
     override fun authenticate(authentication: Authentication): Authentication? {
         return if(checkPassword(authentication.name, authentication.credentials.toString())) {
             createSuccessAuthentication(authentication)
@@ -26,7 +26,7 @@ open class CCRGAuthenticationProvider(val defaultPassword: String?): Authenticat
     }
 
     fun checkPassword(user: String, password: String): Boolean {
-        val saltedPass = (defaultPassword?:"" + user).toByteArray()
+        val saltedPass = (defaultPassword + user).toByteArray()
         val md = MessageDigest.getInstance("SHA-512")
         md.update(saltedPass)
         val hashedPass = md.digest()

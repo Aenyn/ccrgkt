@@ -30,7 +30,7 @@ open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/messages/**").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().hasRole("ROLE_USER")
                 .and()
                 .formLogin()
                 .loginPage("/login")

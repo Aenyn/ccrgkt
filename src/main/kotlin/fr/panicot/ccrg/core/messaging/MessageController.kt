@@ -38,7 +38,9 @@ class MessageController {
     @RequestMapping("/messages/send", method = arrayOf(RequestMethod.POST))
     fun sendMessage(@RequestParam("author") author: String, @RequestParam("content") content: String): Unit {
         val timestamp = LocalDateTime.now()
-        messages.add(Message(counter.incrementAndGet(), timestamp.toLocalTime().toString(), author, content))
+        val initialMessage = Message(counter.incrementAndGet(), timestamp.toLocalTime().toString(), author, content)
+        val processedMessage = processMessage(initialMessage)
+        messages.add(processedMessage)
     }
 
     @RequestMapping("/users/get", method = arrayOf(RequestMethod.GET))

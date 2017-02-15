@@ -29,7 +29,6 @@ open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .authorizeRequests()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/css/**").permitAll()
-                .antMatchers("/messages/**").permitAll()
                 .anyRequest().hasRole("USER")
                 .and()
                 .formLogin()
@@ -45,7 +44,7 @@ open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Bean
     open fun authenticationProvider(): AuthenticationProvider {
-        val defaultPassword = System.getenv("DEFAULT_PASSWORD")?:"Raviolis 4ever"
+        val defaultPassword = System.getenv("DEFAULT_PASSWORD")?:""
         return CCRGAuthenticationProvider(defaultPassword)
     }
 }

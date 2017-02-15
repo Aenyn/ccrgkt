@@ -1,5 +1,6 @@
 package fr.panicot.ccrg.core.messaging
 
+import org.apache.commons.lang3.StringEscapeUtils
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
@@ -38,7 +39,7 @@ class MessageController {
     @RequestMapping("/messages/send", method = arrayOf(RequestMethod.POST))
     fun sendMessage(@RequestParam("author") author: String, @RequestParam("content") content: String): Unit {
         val timestamp = LocalDateTime.now()
-        val initialMessage = Message(counter.incrementAndGet(), timestamp.toLocalTime().toString(), author, content)
+        val initialMessage = Message(counter.incrementAndGet(), timestamp.toLocalTime(), author, content)
         val processedMessage = processMessage(initialMessage)
         messages.add(processedMessage)
     }
@@ -50,7 +51,7 @@ class MessageController {
 
     @RequestMapping("/users/me", method = arrayOf(RequestMethod.GET))
     fun getMe(request: HttpServletRequest): User {
-        val username = request.remoteUser
+        val username = StringEscapeUtils.escapeHtml4(request.remoteUser)
         if (users.containsKey(username)) {
             return users[username]?:User(username, false, LocalDateTime.now())
         } else {
@@ -65,7 +66,8 @@ class MessageController {
         val requestTime = LocalDateTime.now()
         updateUserLastSeen(user, requestTime)
         val announcement = user + if(isArrival) " vient de se connecter" else " vient de ragequit"
-        messages.add(Message(counter.incrementAndGet(), requestTime.toLocalTime().toString(), SYSTEM_ANNOUNCEMENT, announcement))
+        val announcementMessage = Message(counter.incrementAndGet(), requestTime.toLocalTime(), SYSTEM_ANNOUNCEMENT, announcement)
+        messages.add(announcementMessage)
     }
 
     @RequestMapping("/users/keepalive", method = arrayOf(RequestMethod.GET))
@@ -84,10 +86,11 @@ class MessageController {
     }
 
     fun updateUserLastSeen(author: String, timestamp: LocalDateTime): Unit {
-        if (users.containsKey(author)) {
-            users[author]?.lastSeen = timestamp
+        val escapedAuthor = author
+        if (users.containsKey(escapedAuthor)) {
+            users[escapedAuthor]?.lastSeen = timestamp
         } else {
-            users.put(author, User(author, false, timestamp))
+            users.put(escapedAuthor, User(escapedAuthor, false, timestamp))
         }
     }
 
@@ -95,6 +98,7 @@ class MessageController {
         return MessageProcessor(message)
                 .escapeHtmlTags()
                 .processLinks()
+                .adjustTime(System.getProperty("TIME_DIFFERENCE", "0").toLong())
                 .finalizeMessage()
     }
 }

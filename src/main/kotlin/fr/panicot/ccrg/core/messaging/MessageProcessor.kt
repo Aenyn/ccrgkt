@@ -22,10 +22,16 @@ class MessageProcessor(val message: Message) {
     }
 
     fun escapeHtmlTags(): MessageProcessor {
-        val messageContent = message.content
-        val messageProcessed = Message(message.id,message.timestamp,message.author,
-                StringEscapeUtils.escapeHtml4(messageContent))
+        val messageProcessed = Message(message.id,message.timestamp,
+                StringEscapeUtils.escapeHtml4(message.author),
+                StringEscapeUtils.escapeHtml4(message.content))
         return MessageProcessor(messageProcessed)
+    }
+
+    fun adjustTime(timeDifference: Long): MessageProcessor {
+        val messageProcessed = Message(message.id, message.timestamp.plusHours(timeDifference), message.author, message.content)
+        return MessageProcessor(messageProcessed)
+
     }
 
     fun finalizeMessage(): Message { return message }

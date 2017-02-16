@@ -72,7 +72,8 @@ function getMessages() {
             messages = messages.concat(messageBatch.messages)
             messages.forEach(function(message) {
                 var hour = message.timestamp.hour < 10 ? "0" + message.timestamp.hour : "" + message.timestamp.hour
-                var html = '<div class="message"><span class="message_timestamp">' + hour + ":" + message.timestamp.minute
+                var minute = message.timestamp.minute < 10 ? "0" + message.timestamp.minute : "" + message.timestamp.minute
+                var html = '<div class="message"><span class="message_timestamp">' + hour + ":" + minute
                 + '</span><span class="message_author"> ' + message.author
                 + '</span><span class="message_content">> ' + message.content + '</span></div>';
                 allMessages = allMessages + html;

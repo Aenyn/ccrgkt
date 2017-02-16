@@ -24,7 +24,7 @@ class MessageProcessor(val message: Message) {
     fun escapeHtmlTags(): MessageProcessor {
         val messageProcessed = Message(message.id,message.timestamp,
                 StringEscapeUtils.escapeHtml4(message.author),
-                StringEscapeUtils.escapeHtml4(message.content))
+                message.content.replace("<","&lt;").replace(">","&gt;"))
         return MessageProcessor(messageProcessed)
     }
 

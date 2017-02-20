@@ -26,7 +26,7 @@ function checkCommands(message) {
         return false
     } if(empty.test(message)) {
         var date = new Date()
-        addMessages([{"author":"Local announcement", "content":"Vous ne pouvez pas envoyer de message vide", "timestamp":{"hour":date.getHours(),"minute":date.getMinutes()}}])
+        addMessages({messages:[{"author":"Local announcement", "content":"Vous ne pouvez pas envoyer de message vide", "timestamp":{"hour":date.getHours(),"minute":date.getMinutes()}}]})
         return false
      } else {
         return true

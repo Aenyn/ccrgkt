@@ -14,7 +14,7 @@ function checkCommands(message) {
     var toggleScrollExp = /\/togglescroll/
     var noScrollExp = /\/noscroll/
     var scrollExp = /\/scroll/
-    var empty = /\s*$/
+    var empty = /^\s*$/
     if(toggleScrollExp.test(message)) {
         scrollMode = !scrollMode
         return false

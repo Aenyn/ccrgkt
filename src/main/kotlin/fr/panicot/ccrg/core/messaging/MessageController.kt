@@ -23,10 +23,12 @@ class MessageController {
 
     @RequestMapping("/messages/longPoll", method = arrayOf(RequestMethod.GET))
     fun longPollMessages(@RequestParam(value = "latestId", defaultValue = "0") id: Long): MessageBatch {
+        val waitCount = AtomicLong(0L)
         var messagesSinceId = getMessagesSinceId(id)
         while (messagesSinceId.messages.isEmpty()) {
             Thread.sleep(100)
             messagesSinceId = getMessagesSinceId(id)
+            if(waitCount.incrementAndGet() > 290) return messagesSinceId
         }
         return messagesSinceId
     }
@@ -41,7 +43,7 @@ class MessageController {
         val timestamp = LocalDateTime.now()
         val initialMessage = Message(counter.incrementAndGet(), timestamp.toLocalTime(), author, content)
         val processedMessage = processMessage(initialMessage)
-        messages.add(processedMessage)
+        if(processedMessage.content.isNotBlank()) messages.add(processedMessage)
     }
 
     @RequestMapping("/users/get", method = arrayOf(RequestMethod.GET))

@@ -78,7 +78,9 @@ function addMessages(messageBatch) {
         var allMessages = "";
         if(!isActive) {
             unreadMessages += messageBatch.messages.length
-            document.title = "(" + unreadMessages + ") CCRG";
+            if(unreadMessages > 0) {
+                document.title = "(" + unreadMessages + ") CCRG";
+            }
         }
         messages = messages.concat(messageBatch.messages)
         messages.forEach(function(message) {

@@ -17,7 +17,7 @@ class PierBot(messageController: MessageController, random: Random): Bot(message
 
     override fun start() {
         scheduler.initialize()
-        scheduler.schedule(Runnable{changeState()}, CronTrigger("0 * 9-23 * * *"))
+        scheduler.schedule(Runnable{changeState()}, CronTrigger("0 * 10-16 * * *"))
     }
 
     fun changeState() {

@@ -16,7 +16,8 @@ open class BotConfig {
 
     @Bean
     open fun startBots(): Boolean {
-        var botList: List<Bot> = Arrays.asList(Attila(messageController!!))
+        val random = Random(System.nanoTime())
+        var botList: List<Bot> = Arrays.asList(AttilaBot(messageController!!, random), PierBot(messageController!!, random))
         botList.forEach(Bot::start)
         return true
     }

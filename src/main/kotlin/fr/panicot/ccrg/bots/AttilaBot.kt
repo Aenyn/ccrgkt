@@ -8,9 +8,8 @@ import java.util.*
 /**
  * Created by William on 16/03/2017.
  */
-class Attila(messageController: MessageController): Bot(messageController) {
+class AttilaBot(messageController: MessageController, random: Random): Bot(messageController, random) {
     val scheduler = ThreadPoolTaskScheduler()
-    val random = Random(System.nanoTime())
     val quoteList = Arrays.asList("YAAAAAAARGH !",
             "LA OU JE PASSE L'HERBE NE REPOUSSE JAMAIS !",
             "PLACE AU GRAND ATTILA !",

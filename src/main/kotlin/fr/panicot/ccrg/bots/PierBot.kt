@@ -3,6 +3,7 @@ package fr.panicot.ccrg.bots
 import fr.panicot.ccrg.core.messaging.MessageController
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler
 import org.springframework.scheduling.support.CronTrigger
+import java.time.LocalDate
 import java.util.*
 
 /**
@@ -14,10 +15,11 @@ class PierBot(messageController: MessageController, random: Random): Bot(message
     val averageMinutesBetweenInterventions = 20
     var currentName = getRandomName()
     var currentStatus = PierStatus.DECO
+    var lastConnectionDay : LocalDate? = null
 
     override fun start() {
         scheduler.initialize()
-        scheduler.schedule(Runnable{changeState()}, CronTrigger("0 * 10-16 * * *"))
+        scheduler.schedule(Runnable{changeState()}, CronTrigger("0 * 9-16 * * *"))
     }
 
     fun changeState() {
@@ -25,11 +27,12 @@ class PierBot(messageController: MessageController, random: Random): Bot(message
         if (!willIntervene) {
 
         } else if (currentStatus == PierStatus.DECO) {
+            val connectionMessage = if  (hasConnectedToday()) "re" else "plop"
             currentStatus = PierStatus.PRESENT
             currentName = getRandomName()
             messageController.announceArrival(currentName, true)
             Thread.sleep(500L + random.nextInt(2000).toLong())
-            messageController.sendMessage(currentName, "plop")
+            messageController.sendMessage(currentName, connectionMessage)
         } else if (currentStatus == PierStatus.AFK) {
             val toDeco = random.nextBoolean()
             if (toDeco) {
@@ -52,6 +55,12 @@ class PierBot(messageController: MessageController, random: Random): Bot(message
                 currentStatus = PierStatus.AFK
             }
         }
+    }
+
+    fun hasConnectedToday() : Boolean {
+        val previousConnectionDay = lastConnectionDay
+        lastConnectionDay = LocalDate.now()
+        return previousConnectionDay == lastConnectionDay
     }
 
     fun getRandomName() : String {

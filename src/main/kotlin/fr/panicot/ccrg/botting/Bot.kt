@@ -1,4 +1,4 @@
-package fr.panicot.ccrg.bots
+package fr.panicot.ccrg.botting
 
 import fr.panicot.ccrg.core.messaging.MessageController
 import java.util.*

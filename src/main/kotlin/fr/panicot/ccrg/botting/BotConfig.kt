@@ -1,5 +1,6 @@
 package fr.panicot.ccrg.botting
 
+import fr.panicot.ccrg.botting.bots.AeninBot
 import fr.panicot.ccrg.botting.bots.AttilaBot
 import fr.panicot.ccrg.botting.bots.PierBot
 import fr.panicot.ccrg.core.messaging.MessageController
@@ -19,7 +20,7 @@ open class BotConfig {
     @Bean
     open fun startBots(): Boolean {
         val random = Random(System.nanoTime())
-        var botList: List<Bot> = Arrays.asList(AttilaBot(messageController!!, random), PierBot(messageController!!, random))
+        val botList: List<Bot> = Arrays.asList(AttilaBot(messageController!!, random), PierBot(messageController!!, random), AeninBot(messageController!!, random))
         botList.forEach(Bot::start)
         return true
     }

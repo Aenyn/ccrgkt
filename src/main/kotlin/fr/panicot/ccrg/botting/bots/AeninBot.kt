@@ -19,7 +19,7 @@ class AeninBot(messageController: MessageController, random: Random) : EasyBot(m
         if(message.author == "Aenin" || !willAct(100)) {
             return
         }
-        else if (message.content.contains("<a href")) {
+        else if (message.content.contains("<a target")) {
             messageController.sendMessage(BOT_NAME, getRandomHaha())
         } else {
             messageController.sendMessage(BOT_NAME, getRandomJavou())
@@ -35,7 +35,7 @@ class AeninBot(messageController: MessageController, random: Random) : EasyBot(m
     }
 
     private fun getRandomHaha() : String {
-        return hahaList[random.nextInt(javouList.size)]
+        return hahaList[random.nextInt(hahaList.size)]
     }
 
     private fun willAct(chances : Int) : Boolean {

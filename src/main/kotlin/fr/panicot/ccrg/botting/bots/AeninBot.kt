@@ -16,12 +16,12 @@ class AeninBot(messageController: MessageController, random: Random) : EasyBot(m
     val hahaList = Arrays.asList("haha", "haha nice", "^^ nice")
 
     override fun executeOnNewMessage(message: Message) {
-        if(message.author == "Aenin" || !willAct(100)) {
+        if(message.author == "Aenin") {
             return
         }
-        else if (message.content.contains("<a target")) {
+        else if (message.content.contains("<a target") && willAct(10)) {
             messageController.sendMessage(BOT_NAME, getRandomHaha())
-        } else {
+        } else if (willAct(50)) {
             messageController.sendMessage(BOT_NAME, getRandomJavou())
         }
     }

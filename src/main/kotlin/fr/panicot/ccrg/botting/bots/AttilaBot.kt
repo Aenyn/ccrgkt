@@ -16,7 +16,7 @@ class AttilaBot(messageController: MessageController, random: Random): Bot(messa
             "PLACE AU GRAND ATTILA !",
             "JE SUIS LE FLEAU DE DIEU !",
             "AAAAAAAARGH !",
-            "COURREZ POUR VOS VIES !",
+            "COUREZ POUR VOS VIES !",
             "JE SUIS ATTILA LE HUN !")
 
     fun randomPick() : String = quoteList.get(random.nextInt(quoteList.size))

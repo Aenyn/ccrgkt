@@ -82,14 +82,14 @@ class MessageController {
     @RequestMapping("/users/setafk", method = arrayOf(RequestMethod.GET))
     fun setAfk(@RequestParam("user") user: String): String {
         val requestTime = LocalDateTime.now()
-        updateUserLastSeen(user, requestTime, false)
+        updateUserLastSeen(user, requestTime, true)
         return "ok"
     }
 
     @RequestMapping("/users/unsetafk", method = arrayOf(RequestMethod.GET))
     fun unsetAfk(@RequestParam("user") user: String): String {
         val requestTime = LocalDateTime.now()
-        updateUserLastSeen(user, requestTime, true)
+        updateUserLastSeen(user, requestTime, false)
         return "ok"
     }
 

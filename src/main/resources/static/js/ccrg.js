@@ -121,7 +121,8 @@ function keepAlive() {
     var url = "/users/keepalive";
     $.ajax({
         url: url,
-        method: "GET"
+        method: "GET",
+        data: {user:me},
     });
 }
 

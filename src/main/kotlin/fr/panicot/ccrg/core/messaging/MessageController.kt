@@ -73,9 +73,10 @@ class MessageController {
     }
 
     @RequestMapping("/users/keepalive", method = arrayOf(RequestMethod.GET))
-    fun keepAlive(@RequestParam("user") user: String): Unit {
+    fun keepAlive(@RequestParam("user") user: String): String {
         val requestTime = LocalDateTime.now()
         updateUserLastSeen(user, requestTime)
+        return "ok"
     }
 
     fun getMessagesSinceId(id: Long): MessageBatch {

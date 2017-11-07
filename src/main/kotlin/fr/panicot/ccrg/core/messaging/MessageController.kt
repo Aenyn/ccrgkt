@@ -83,6 +83,9 @@ class MessageController {
     fun setAfk(@RequestParam("user") user: String): String {
         val requestTime = LocalDateTime.now()
         updateUserLastSeen(user, requestTime, true)
+        val announcement = user + " est maintenant afk"
+        val afkMessage = Message(counter.incrementAndGet(), requestTime.toLocalTime(), SYSTEM_ANNOUNCEMENT, announcement)
+        messages.add(afkMessage)
         return "ok"
     }
 
@@ -90,6 +93,9 @@ class MessageController {
     fun unsetAfk(@RequestParam("user") user: String): String {
         val requestTime = LocalDateTime.now()
         updateUserLastSeen(user, requestTime, false)
+        val announcement = user + " n'est plus afk"
+        val afkMessage = Message(counter.incrementAndGet(), requestTime.toLocalTime(), SYSTEM_ANNOUNCEMENT, announcement)
+        messages.add(afkMessage)
         return "ok"
     }
 

@@ -111,12 +111,12 @@ function getActiveUsers() {
             var allUsers = "";
             userList.forEach(function(user) {
                 var name = user.name;
-                var class = 'user_name';
+                var htmlClass = 'user_name';
                 if (user.afk) {
-                    class = class + ' afk';
+                    htmlClass = htmlClass + ' afk';
                     name = name + ' (afk)';
                 }
-                var html = '<div class="user"><span class="' + class + '">' + name + '</span>';
+                var html = '<div class="user"><span class="' + htmlClass + '">' + name + '</span>';
                 allUsers = allUsers + html;
             })
             document.getElementById("online").innerHTML = allUsers

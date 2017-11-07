@@ -37,6 +37,7 @@
     }
     getActiveUsers();
     setInterval(getActiveUsers, 1000);
+    setInterval(keepAlive, 10000);
 
     var isActive = true;
     window.onfocus = function () {

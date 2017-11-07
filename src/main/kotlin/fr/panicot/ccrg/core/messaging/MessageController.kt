@@ -81,22 +81,25 @@ class MessageController {
 
     @RequestMapping("/users/setafk", method = arrayOf(RequestMethod.GET))
     fun setAfk(@RequestParam("user") user: String): String {
-        val requestTime = LocalDateTime.now()
-        updateUserLastSeen(user, requestTime, true)
-        val announcement = user + " est maintenant afk"
-        val afkMessage = Message(counter.incrementAndGet(), requestTime.toLocalTime(), SYSTEM_ANNOUNCEMENT, announcement)
-        messages.add(afkMessage)
+        setOrUnsetAfk(user, true)
         return "ok"
     }
 
     @RequestMapping("/users/unsetafk", method = arrayOf(RequestMethod.GET))
     fun unsetAfk(@RequestParam("user") user: String): String {
+        if(isUserAfk(user)) {
+            setOrUnsetAfk(user, false)
+        }
+        return "ok"
+    }
+
+    fun setOrUnsetAfk(user: String, afk: Boolean) {
         val requestTime = LocalDateTime.now()
-        updateUserLastSeen(user, requestTime, false)
-        val announcement = user + " n'est plus afk"
+        updateUserLastSeen(user, requestTime, afk)
+        val announcement = user + if (afk) " est maintenant afk" else " n'est plus afk"
         val afkMessage = Message(counter.incrementAndGet(), requestTime.toLocalTime(), SYSTEM_ANNOUNCEMENT, announcement)
         messages.add(afkMessage)
-        return "ok"
+
     }
 
     fun getMessagesSinceId(id: Long): MessageBatch {
@@ -125,6 +128,10 @@ class MessageController {
         } else {
             users.put(escapedAuthor, User(escapedAuthor, afk, timestamp))
         }
+    }
+
+    fun isUserAfk(user: String): Boolean {
+        return users[user]?.afk ?: false
     }
 
     fun processMessage(message: Message): Message {

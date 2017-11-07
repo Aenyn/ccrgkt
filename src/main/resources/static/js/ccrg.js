@@ -15,6 +15,7 @@ function checkCommands(message) {
     var noScrollExp = /\/noscroll/
     var scrollExp = /\/scroll/
     var empty = /^\s*$/
+    var afk = /\/afk/
     if(toggleScrollExp.test(message)) {
         scrollMode = !scrollMode
         return false
@@ -23,6 +24,9 @@ function checkCommands(message) {
         return false
     } if(scrollExp.test(message)) {
         scrollMode = true
+        return false
+    } if(afk.test(message)) {
+        setAfk()
         return false
     } if(empty.test(message)) {
         var date = new Date()
@@ -34,6 +38,7 @@ function checkCommands(message) {
 }
 
 function sendMessage() {
+    unsetAfk();
     var content = document.getElementById("message_prompt").value
     if(checkCommands(content)) {
         $.ajax({
@@ -104,11 +109,14 @@ function getActiveUsers() {
         method: "GET",
         success:function(userList) {
             var allUsers = "";
-            var userNames = userList.map(function(user) {
-                return user.name
-            });
-            userNames.forEach(function(username) {
-                var html = '<div class="user"><span class="user_name">' + username + '</span>';
+            userList.forEach(function(user) {
+                var name = user.name;
+                var class = 'user_name';
+                if (user.afk) {
+                    class = class + ' afk';
+                    name = name + ' (afk)';
+                }
+                var html = '<div class="user"><span class="' + class + '">' + name + '</span>';
                 allUsers = allUsers + html;
             })
             document.getElementById("online").innerHTML = allUsers
@@ -119,6 +127,24 @@ function getActiveUsers() {
 
 function keepAlive() {
     var url = "/users/keepalive";
+    $.ajax({
+        url: url,
+        method: "GET",
+        data: {user:me},
+    });
+}
+
+function setAfk() {
+    var url = "/users/setafk";
+    $.ajax({
+        url: url,
+        method: "GET",
+        data: {user:me},
+    });
+}
+
+function unsetAfk() {
+    var url = "/users/unsetafk";
     $.ajax({
         url: url,
         method: "GET",

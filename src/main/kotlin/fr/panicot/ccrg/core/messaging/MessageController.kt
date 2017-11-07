@@ -79,6 +79,20 @@ class MessageController {
         return "ok"
     }
 
+    @RequestMapping("/users/setafk", method = arrayOf(RequestMethod.GET))
+    fun setAfk(@RequestParam("user") user: String): String {
+        val requestTime = LocalDateTime.now()
+        updateUserLastSeen(user, requestTime, false)
+        return "ok"
+    }
+
+    @RequestMapping("/users/unsetafk", method = arrayOf(RequestMethod.GET))
+    fun unsetAfk(@RequestParam("user") user: String): String {
+        val requestTime = LocalDateTime.now()
+        updateUserLastSeen(user, requestTime, true)
+        return "ok"
+    }
+
     fun getMessagesSinceId(id: Long): MessageBatch {
         return MessageBatch(messages.filter { message -> message.id > id }, counter.get())
     }
@@ -94,6 +108,16 @@ class MessageController {
             users[escapedAuthor]?.lastSeen = timestamp
         } else {
             users.put(escapedAuthor, User(escapedAuthor, false, timestamp))
+        }
+    }
+
+    fun updateUserLastSeen(author: String, timestamp: LocalDateTime, afk: Boolean): Unit {
+        val escapedAuthor = author
+        if (users.containsKey(escapedAuthor)) {
+            users[escapedAuthor]?.lastSeen = timestamp
+            users[escapedAuthor]?.afk = afk
+        } else {
+            users.put(escapedAuthor, User(escapedAuthor, afk, timestamp))
         }
     }
 

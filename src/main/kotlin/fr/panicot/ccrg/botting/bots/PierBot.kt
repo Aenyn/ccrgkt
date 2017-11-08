@@ -24,6 +24,7 @@ class PierBot(messageController: MessageController, random: Random): Bot(message
     }
 
     fun changeState() {
+        if (currentStatus != PierStatus.DECO) messageController.keepAlive(currentName)
         val willIntervene = random.nextInt(averageMinutesBetweenInterventions) == 0
         if (!willIntervene) {
 
@@ -41,6 +42,7 @@ class PierBot(messageController: MessageController, random: Random): Bot(message
                 currentStatus = PierStatus.DECO
             } else {
                 currentStatus = PierStatus.PRESENT
+                messageController.unsetAfk(currentName)
                 messageController.sendMessage(currentName, "re")
             }
         } else {
@@ -52,6 +54,7 @@ class PierBot(messageController: MessageController, random: Random): Bot(message
                 currentStatus = PierStatus.DECO
             } else {
                 messageController.sendMessage(currentName, "afk")
+                messageController.setAfk(currentName)
                 Thread.sleep(500L + random.nextInt(2000).toLong())
                 currentStatus = PierStatus.AFK
             }

@@ -16,7 +16,8 @@ class AeninBot(messageController: MessageController, random: Random) : EasyBot(m
     val hahaList = Arrays.asList("haha", "haha nice", "^^ nice")
 
     override fun executeOnNewMessage(message: Message) {
-        if(message.author == "Aenin") {
+        Thread.sleep(500L + random.nextInt(2000).toLong())
+        if(message.author == "Aenin" || message.author == "AeninBot") {
             return
         }
         else if (message.content.contains("<a target") && willAct(10)) {

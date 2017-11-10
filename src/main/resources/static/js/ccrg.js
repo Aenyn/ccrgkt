@@ -11,11 +11,11 @@ function getMyName() {
 }
 
 function checkCommands(message) {
-    var toggleScrollExp = /\/togglescroll/
-    var noScrollExp = /\/noscroll/
-    var scrollExp = /\/scroll/
+    var toggleScrollExp = /^\/togglescroll/
+    var noScrollExp = /^\/noscroll/
+    var scrollExp = /^\/scroll/
     var empty = /^\s*$/
-    var afk = /\/afk/
+    var afk = /^\/afk/
     if(toggleScrollExp.test(message)) {
         scrollMode = !scrollMode
         return false
@@ -38,9 +38,9 @@ function checkCommands(message) {
 }
 
 function sendMessage() {
-    unsetAfk();
     var content = document.getElementById("message_prompt").value
     if(checkCommands(content)) {
+        unsetAfk();
         $.ajax({
             url: "/messages/send",
             method: "POST",

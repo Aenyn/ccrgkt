@@ -82,7 +82,7 @@ function getMessages() {
 function addMessages(messageBatch) {
     var allMessages = "";
     if(!isActive) {
-        unreadMessages += messageBatch.messages.length
+        unreadMessages += messageBatch.messages.filter(message => !message.author.endsWith("Bot")).length
         if(unreadMessages > 0) {
             document.title = "(" + unreadMessages + ") CCRG";
         }

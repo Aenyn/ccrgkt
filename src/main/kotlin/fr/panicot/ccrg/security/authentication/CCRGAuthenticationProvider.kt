@@ -17,7 +17,7 @@ open class CCRGAuthenticationProvider(val defaultPassword: String): Authenticati
         return if(checkPassword(authentication.name, authentication.credentials.toString())) {
             createSuccessAuthentication(authentication)
         } else {
-            createFailAuthentication(authentication)
+            null
         }
     }
 
@@ -26,6 +26,7 @@ open class CCRGAuthenticationProvider(val defaultPassword: String): Authenticati
     }
 
     fun checkPassword(user: String, password: String): Boolean {
+        if (user.endsWith("Bot")) return false
         val saltedPass = (defaultPassword + user).toByteArray()
         val md = MessageDigest.getInstance("SHA-512")
         md.update(saltedPass)

@@ -33,6 +33,7 @@ open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .failureUrl("/login")
                 .permitAll()
     }
 

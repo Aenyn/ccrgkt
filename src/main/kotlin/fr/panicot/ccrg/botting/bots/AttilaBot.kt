@@ -23,8 +23,8 @@ class AttilaBot(messageController: MessageController, random: Random): Bot(messa
 
     override fun start() {
         scheduler.initialize()
-        scheduler.schedule(Runnable{messageController.announceArrival("ATTILA", true)}, CronTrigger("0 11 10 * * *"))
-        scheduler.schedule(Runnable{messageController.sendMessage("ATTILA", randomPick())}, CronTrigger("1-59/4 11 10 * * *"))
-        scheduler.schedule(Runnable{messageController.announceArrival("ATTILA", false)}, CronTrigger("0 12 10 * * *"))
+        scheduler.schedule(Runnable{messageController.announceArrival("ATTILABOT", true)}, CronTrigger("0 11 10 * * *"))
+        scheduler.schedule(Runnable{messageController.sendMessage("ATTILABOT", randomPick())}, CronTrigger("1-59/4 11 10 * * *"))
+        scheduler.schedule(Runnable{messageController.announceArrival("ATTILABOT", false)}, CronTrigger("0 12 10 * * *"))
     }
 }

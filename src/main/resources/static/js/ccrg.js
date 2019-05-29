@@ -16,7 +16,12 @@ function checkCommands(message) {
     var scrollExp = /^\/scroll/
     var empty = /^\s*$/
     var afk = /^\/afk/
-    if(toggleScrollExp.test(message)) {
+    var kick = /^\/kick (.*)/
+    if (kick.test(message)) {
+	    var match = kick.exec(message);
+        kickUser(match[1])
+        return false
+    } if(toggleScrollExp.test(message)) {
         scrollMode = !scrollMode
         return false
     } if(noScrollExp.test(message)) {
@@ -50,6 +55,14 @@ function sendMessage() {
     document.getElementById("message_prompt").value = "";
 }
 
+function kickUser(user) {
+    $.ajax({
+        url: "/users/kick",
+        method: "POST",
+        data: {userToKick:user, kickingUser:me}
+    })
+}
+
 function announceMyArrival() {
     $.ajax({
         url: "/users/announce",
@@ -69,7 +82,7 @@ function announceMyDeparture() {
 }
 
 function getMessages() {
-    var url = "/messages/longPoll?latestId=" + lastMessageId;
+    var url = "/messages/longPoll?latestId=" + lastMessageId + "&user=" + me;
     $.ajax({
         url: url,
         method: "GET",
@@ -89,6 +102,12 @@ function addMessages(messageBatch) {
     }
     messages = messages.concat(messageBatch.messages)
     messages.forEach(function(message) {
+        if(message.specialType === 'kick') {
+            kicked = true
+            if(!window.alert(message.content)) {
+                window.location.replace('http://www.staggeringbeauty.com/');
+            };
+        }
         var hourTemp = (message.timestamp.hour + 1) % 24
         var hour = hourTemp < 10 ? "0" + hourTemp : "" + hourTemp
         var minute = message.timestamp.minute < 10 ? "0" + message.timestamp.minute : "" + message.timestamp.minute
@@ -99,7 +118,9 @@ function addMessages(messageBatch) {
     })
     lastMessageId = messageBatch.latestId
     document.getElementById("main").innerHTML = allMessages
-    scrollToBottom()
+    if(messageBatch.messages.length > 0) {
+        scrollToBottom()
+    }
 }
 
 function getActiveUsers() {

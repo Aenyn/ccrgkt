@@ -25,6 +25,7 @@
 <script src="/js/jquery.js" language="JavaScript" type="text/javascript"></script>
 <script src="/js/ccrg.js" language="JavaScript" type="text/javascript"></script>
 <script>
+    var kicked = false
     var unreadMessages = 0
     var scrollMode = true
     var lastMessageId=0;
@@ -33,7 +34,9 @@
     getMyName();
     getMessages();
     window.onbeforeunload = function(){
-        announceMyDeparture();
+        if(!kicked) {
+            announceMyDeparture();
+        }
     }
     getActiveUsers();
     setInterval(getActiveUsers, 1000);

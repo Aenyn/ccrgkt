@@ -10,12 +10,11 @@ import java.util.*
 /**
  * Created by William on 16/03/2017.
  */
-class PierBot(messageController: MessageController, random: Random): Bot(messageController, random) {
+class ClausseBot(messageController: MessageController, random: Random): Bot(messageController, random) {
     val scheduler = ThreadPoolTaskScheduler()
-    val nameList = Arrays.asList("Pire", "Pier", "Pyotr")
     val averageMinutesBetweenInterventions = 20
-    var currentName = getRandomName()
-    var currentStatus = PierStatus.DECO
+    var currentName = "ClausseBot"
+    var currentStatus = ClausseStatus.DECO
     var lastConnectionDay : LocalDate? = null
 
     override fun start() {
@@ -24,39 +23,37 @@ class PierBot(messageController: MessageController, random: Random): Bot(message
     }
 
     fun changeState() {
-        if (currentStatus != PierStatus.DECO) messageController.keepAlive(currentName)
+        if (currentStatus != ClausseStatus.DECO) messageController.keepAlive(currentName)
         val willIntervene = random.nextInt(averageMinutesBetweenInterventions) == 0
         if (!willIntervene) {
 
-        } else if (currentStatus == PierStatus.DECO) {
-            val connectionMessage = if  (hasConnectedToday()) "re" else "plop"
-            currentStatus = PierStatus.PRESENT
-            currentName = getRandomName()
+        } else if (currentStatus == ClausseStatus.DECO) {
+            val connectionMessage = if  (hasConnectedToday()) "re" else "-"
+            currentStatus = ClausseStatus.PRESENT
             messageController.announceArrival(currentName, true)
             Thread.sleep(500L + random.nextInt(2000).toLong())
             messageController.sendMessage(currentName, connectionMessage)
-        } else if (currentStatus == PierStatus.AFK) {
+        } else if (currentStatus == ClausseStatus.AFK) {
             val toDeco = random.nextBoolean()
             if (toDeco) {
                 messageController.announceArrival(currentName, false)
-                currentStatus = PierStatus.DECO
+                currentStatus = ClausseStatus.DECO
             } else {
-                currentStatus = PierStatus.PRESENT
+                currentStatus = ClausseStatus.PRESENT
                 messageController.unsetAfk(currentName)
                 messageController.sendMessage(currentName, "re")
             }
         } else {
             val toDeco = random.nextBoolean()
-            if (toDeco) {
-                messageController.sendMessage(currentName, "rq")
+            currentStatus = if (toDeco) {
+                messageController.sendMessage(currentName, "++")
                 Thread.sleep(500L + random.nextInt(2000).toLong())
                 messageController.announceArrival(currentName, false)
-                currentStatus = PierStatus.DECO
+                ClausseStatus.DECO
             } else {
-                messageController.sendMessage(currentName, "afk")
                 messageController.setAfk(currentName)
                 Thread.sleep(500L + random.nextInt(2000).toLong())
-                currentStatus = PierStatus.AFK
+                ClausseStatus.AFK
             }
         }
     }
@@ -67,11 +64,7 @@ class PierBot(messageController: MessageController, random: Random): Bot(message
         return previousConnectionDay == lastConnectionDay
     }
 
-    fun getRandomName() : String {
-        return nameList[random.nextInt(nameList.size)] + "Bot"
-    }
-
-    enum class PierStatus {
+    enum class ClausseStatus {
         AFK, PRESENT, DECO
     }
 }

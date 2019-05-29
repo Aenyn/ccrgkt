@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringEscapeUtils
 /**
  * Created by William on 13/02/2017.
  */
-class MessageProcessor(val message: Message) {
+class MessageProcessor(private val message: Message) {
     fun processLinks(): MessageProcessor {
         val messageContent = message.content
         val messageSplit = messageContent.split(" ")
